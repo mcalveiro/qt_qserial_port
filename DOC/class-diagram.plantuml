@@ -1,0 +1,53 @@
+@startuml QtQSerialPort
+class MainWindow {
+    +MainWindow(parent: QWidget*)
+    -ui: Ui::MainWindow*
+    -COMPORT: QSerialPort*
+    -Data_From_SerialPort: QString
+    -IS_Data_Recevied: bool
+    +Read_Data() void
+}
+
+class Ui::MainWindow {
+    # setupUi(window: QMainWindow*)
+}
+
+class QSerialPort {
+    +setPortName(name: QString)
+    +setBaudRate(baudRate: BaudRate)
+    +setParity(parity: Parity)
+    +setDataBits(dataBits: DataBits)
+    +setStopBits(stopBits: StopBits)
+    +setFlowControl(flow: FlowControl)
+    +open(mode: QIODevice::OpenMode)
+    +isOpen(): bool
+    +bytesAvailable(): qint64
+    +readAll(): QByteArray
+}
+
+enum QSerialPort::BaudRate {
+    Baud9600, ...
+}
+
+enum QSerialPort::Parity {
+    NoParity, ...
+}
+
+enum QSerialPort::DataBits {
+    Data8, ...
+}
+
+enum QSerialPort::StopBits {
+    OneStop, ...
+}
+
+enum QSerialPort::FlowControl {
+    NoFlowControl, ...
+}
+
+MainWindow --> Ui::MainWindow : has a
+MainWindow --> QSerialPort : has a
+MainWindow "1" *--> "1" QSerialPort : COMPORT
+MainWindow "1" --> "*" MainWindow : Read_Data()
+
+@enduml
